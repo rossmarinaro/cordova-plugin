@@ -1,0 +1,30 @@
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    id="cordova-plugin-toasty"
+    version="3.0.2">
+    <name>toasty!</name>
+    <description>Cordova toasty plugin</description>
+    <license>Apache 2.0</license>
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+    <js-module src="www/toasty.js" name="Toasty">
+        <clobbers target="cordova.plugins" />
+    </js-module>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="plugin">
+                <param name="ios-package" value="plugin" />
+            </feature>
+        </config-file>
+    </platform>
+    <platform name="android">
+        <source-file src="src/Toasty.java" target-dir="src/cordova/plugins/" />
+        <config-file target="config.xml" parent="/*">
+            <feature name="Toasty">
+                <param name="android-package" value="cordova.plugins.Toasty" />
+            </feature>
+        </config-file>
+        <dependency id="es6-promise-plugin" version="^4.1.0" />
+    </platform>
+
+</plugin>
