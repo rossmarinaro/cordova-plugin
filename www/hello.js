@@ -1,5 +1,5 @@
 
 
-exports.showToast = function (arg0) {
-    cordova.exec(null, null, 'hello', 'showToast', [arg0]);
+exports.showToast = function (string) {
+    cordova.exec(null, null, 'hello', 'showToast', string);
 };

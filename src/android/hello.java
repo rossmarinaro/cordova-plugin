@@ -10,27 +10,39 @@ import android.content.Context;
 import android.app.Application; 
 import android.os.Bundle;
 import android.widget.Toast;
-import android.view.View;
+import android.view.*;
+import android.widget.TextView;
 import android.app.Activity;  
 import android.view.Menu;
-import android.R;
+import io.cordova.hellocordova.R;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 
 
 /**
- * This class echoes a string called from JavaScript.
+ * This class echoes a string called from JavaScript as a native toast.
  */
 public class hello extends CordovaPlugin {
+
     private CallbackContext PUBLIC_CALLBACKS = null;
- 
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+    public boolean execute(String action, String args, CallbackContext callbackContext) throws JSONException {
+
         PUBLIC_CALLBACKS = callbackContext;
         Context context = this.cordova.getActivity().getApplicationContext();
-        if (action.equals("showToast"/* "coolMethod"  *//* "actionShow" */)) {
-            Toast.makeText(context/* getApplicationContext() */,"Spaghetaboutit!", Toast.LENGTH_LONG).show();
-            String message = args.getString(0);
-            this.coolMethod(message, callbackContext);
+
+        if (action.equals("showToast")) {
+            
+            Toast toast = Toast.makeText(context, args, Toast.LENGTH_LONG);//.show();
+        ////custom vector
+            View toastView = toast.getView();
+            toastView.setBackgroundResource(R.drawable.hello_drawable);
+            TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+            if (v != null) v.setGravity(Gravity.CENTER);
+            toast.show();
+            //String message = args.getString(0);
+            //this.coolMethod(message, callbackContext);
             PluginResult result = new PluginResult(PluginResult.Status.OK, "success");
             result.setKeepCallback(true);
             PUBLIC_CALLBACKS.sendPluginResult(result);
@@ -38,11 +50,6 @@ public class hello extends CordovaPlugin {
         }
         return false;
     }
-    
-    // private void toasty(/* String args */)
-    // {
-    //     Toast.makeText(context/* getApplicationContext() */, "ok"/* args */, Toast.LENGTH_LONG).show();
-    // }
 
     private void coolMethod(String message, CallbackContext callbackContext) 
     {
