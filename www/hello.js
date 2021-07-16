@@ -1,5 +1,7 @@
 
 
-exports.showToast = function (string) {
-    cordova.exec(null, null, 'hello', 'showToast', string);
-};
+
+
+exports.showToast = json => cordova.exec(null, null, 'hello', 'showToast', [json]);
+
+

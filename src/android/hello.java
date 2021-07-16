@@ -10,7 +10,7 @@ import android.content.Context;
 import android.app.Application; 
 import android.os.Bundle;
 import android.widget.Toast;
-import android.view.*;
+import android.view.*;//.View;
 import android.widget.TextView;
 import android.app.Activity;  
 import android.view.Menu;
@@ -27,21 +27,23 @@ public class hello extends CordovaPlugin {
     private CallbackContext PUBLIC_CALLBACKS = null;
 
     @Override
-    public boolean execute(String action, String args, CallbackContext callbackContext) throws JSONException {
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
         PUBLIC_CALLBACKS = callbackContext;
         Context context = this.cordova.getActivity().getApplicationContext();
 
         if (action.equals("showToast")) {
-            
-            Toast toast = Toast.makeText(context, args, Toast.LENGTH_LONG);//.show();
+            String msg = args.getString(0);
+            Toast toast = Toast.makeText(context, msg/* args */, Toast.LENGTH_LONG);
         ////custom vector
-            View toastView = toast.getView();
-            toastView.setBackgroundResource(R.drawable.hello_drawable);
-            TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-            if (v != null) v.setGravity(Gravity.CENTER);
+            if (args.getBoolean(1) == false)
+            {
+                View toastView = toast.getView();
+                toastView.setBackgroundResource(R.drawable.hello_drawable);
+                TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+                if (v != null) v.setGravity(Gravity.CENTER);
+            }
             toast.show();
-            //String message = args.getString(0);
             //this.coolMethod(message, callbackContext);
             PluginResult result = new PluginResult(PluginResult.Status.OK, "success");
             result.setKeepCallback(true);
